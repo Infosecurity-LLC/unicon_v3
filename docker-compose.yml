@@ -1,0 +1,31 @@
+version: '2'
+
+services:
+  redis:
+    image: 'docker.io/bitnami/redis:6.0-debian-10'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+#      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+    ports:
+      - '6379:6379'
+    volumes:
+      - 'redis_data:/bitnami/redis/data'
+
+  rabbitmq:
+    image: 'rabbitmq:3-management'
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    volumes:
+      - 'rabbitmq_data/var/lib/rabbitmq'
+
+#  swagger-editor:
+#    image: swaggerapi/swagger-editor
+#    container_name: "swagger-editor"
+#    ports:
+#      - "8081:8080"
+volumes:
+  redis_data:
+    driver: local
+  rabbitmq_data:
+    driver: local

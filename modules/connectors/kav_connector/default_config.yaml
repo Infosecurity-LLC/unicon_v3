@@ -1,0 +1,18 @@
+query: >
+  DECLARE @start_time as datetime = '{start_time}'
+  DECLARE @end_time as datetime = '{end_time}'
+  SELECT
+        vaee.nID as id, vaee.nSeverity, vaee.wstrTaskDisplayName, vaee.wstrGroupName,
+  		vaee.wstrProductNameId, vaee.wstrProductBuildNumber, vaee.strEventType,
+  		vaee.wstrEventTypeDisplayName, vaee.wstrDescription, vaee.tmRiseTime as dt,
+  		vaee.tmRegistrationTime, vaee.nTaskState, vaee.wstrPar1, vaee.wstrPar2,
+  		vaee.wstrPar3, vaee.wstrPar4, vaee.wstrPar5, vaee.wstrPar6, vaee.wstrPar7,
+  		vaee.wstrPar8, vaee.wstrPar9, vah.wstrDisplayName, vah.wstrDnsName,
+  		vah.wstrDnsDomain, vah.wstrWinName, vah.wstrWinDomain, vah.nIp,
+  		vah.wstrOSName, vavv.strDisplayName
+  FROM v_akpub_ev_event vaee
+  LEFT JOIN v_akpub_host vah ON vaee.nHostId = vah.nId
+  LEFT JOIN v_akpub_vs_vserver vavv ON vaee.nVServerId = vavv.nId
+  WHERE vaee.tmRegistrationTime > @start_time
+  AND vaee.tmRegistrationTime < @end_time
+  ORDER BY vaee.tmRegistrationTime ASC
